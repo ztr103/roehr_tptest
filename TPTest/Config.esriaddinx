@@ -1,0 +1,21 @@
+﻿<ESRI.Configuration xmlns="http://schemas.esri.com/Desktop/AddIns" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Name>TPTest</Name>
+  <AddInID>{dcea395d-29c0-4761-a052-64418084fdfc}</AddInID>
+  <Description>Type in a description for this Add-in.</Description>
+  <Version>1.0</Version>
+  <Image>Images\TPTest.png</Image>
+  <Author>Zack</Author>
+  <Company></Company>
+  <Date>3/12/2017</Date>
+  <Targets>
+    <Target name="Desktop" version="10.4" />
+  </Targets>
+  <AddIn language="CLR" library="TPTest.dll" namespace="TPTest">
+    <ArcMap>
+      <Commands>
+        <Button id="TPTest_CreatePointFC" class="CreatePointFC" message="CreatePointFC" caption="CreatePointFC" tip="CreatePointFC" category="TPTest" image="Images\CreatePointFC.png" />
+        <Button id="TPTest_CreateGrid" class="CreateGrid" message="CreateGrid" caption="CreateGrid" tip="CreateGrid" category="TPTest" image="Images\CreateGrid.png" />
+      </Commands>
+    </ArcMap>
+  </AddIn>
+</ESRI.Configuration>
