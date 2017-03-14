@@ -8,8 +8,7 @@ using ESRI.ArcGIS.Carto;
 using ESRI.ArcGIS.Geoprocessing;
 using ESRI.ArcGIS.esriSystem;
 using ESRI.ArcGIS.Geometry;
-
-
+using System.Diagnostics;
 
 namespace TPTest
 {
@@ -25,6 +24,8 @@ namespace TPTest
 
             //Do Stuff
             CreateGRID("c:/TestOutput", "InspectionGRID", 0.05, "test_points");
+            //AHM
+            //CreateGRID("D:/TestOutput", "InspectionGRID", 0.05, "test_points");
 
         }
 
@@ -76,13 +77,25 @@ namespace TPTest
             }
 
             //Populate some values to feed geoprocess parameters
-            string originString = Xmin + " " + Ymax;
-            string yaxisString = Xmin + " " + (Ymax - gridSize);
+            //string originString = Xmin + " " + Ymax;
+            //AHM
+            string originString = Xmin + " " + Ymin; //AHM
+
+            //string yaxisString = Xmin + " " + (Ymax - gridSize);
+            //AHM
+            string yaxisString = Xmin + " " + (Ymax + gridSize); //AHM
+
             string outputPath = pathName + "\\" + fcName + ".shp";
+
+            //AHM
+            string template = Xmin.ToString() + " " + Ymin.ToString() + " " + Xmax.ToString() + " " + Ymax.ToString(); //AHM
 
             // Create the geoprocessor object
             IGeoProcessor2 geoProcess;
             geoProcess = (IGeoProcessor2)new GeoProcessor();
+
+            //AHM
+            geoProcess.OverwriteOutput = true; //AHM
 
             // Create an IVariantArray to hold the parameter values
             IVariantArray geoParams = new VarArrayClass();
@@ -97,7 +110,7 @@ namespace TPTest
             geoParams.Add("0"); // Number of Columns
             geoParams.Add(""); // Output Corner Coord
             geoParams.Add("NO_LABELS"); // Output Lables
-            geoParams.Add(""); // Output Template - Xmin, Xmax, Ymin, Ymax, OR template dataset
+            geoParams.Add(template); // Output Template - Xmin, Xmax, Ymin, Ymax, OR template dataset //AHM
             geoParams.Add("POLYGON"); // Output Geometry Type
 
             try
@@ -105,14 +118,18 @@ namespace TPTest
                 // Run geoprocessor
                 geoProcess.Execute("CreateFishnet", geoParams, null);
 
+                //AHM
+                Debug.WriteLine(geoProcess.GetMessages(0)); //AHM
             }
             catch (System.Runtime.InteropServices.COMException ce)
             {
-                MessageBox.Show("Error Code: "+ce.ErrorCode.ToString(), "COM Exception", System.Windows.Forms.MessageBoxButtons.OK);
+                //AHM
+                Debug.WriteLine(geoProcess.GetMessages(0)); //AHM
+                MessageBox.Show("Error Code: " + ce.ErrorCode.ToString(), "COM Exception", System.Windows.Forms.MessageBoxButtons.OK);
                 return;
             }
 
-}
+        }
 
     }
 }
